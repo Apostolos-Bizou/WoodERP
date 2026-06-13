@@ -6,7 +6,7 @@
 <title>Σταύρακας Α.Ε. — ERP + CRM · Roadmap & Spec</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600;700&family=Noto+Serif:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     /* timber × terminal palette */
@@ -63,8 +63,10 @@
     color:var(--paper);
   }
   .topbar .wrap{display:flex;align-items:center;gap:18px;height:56px}
-  .topbar__brand{font-family:"Manrope";font-weight:800;letter-spacing:-.01em;font-size:15px}
-  .topbar__brand b{color:var(--amber)}
+  .topbar__brand{display:flex;align-items:center;gap:11px}
+  .tb-mark{width:30px;height:30px;flex:none;display:block;border-radius:6px}
+  .tb-name{font-family:"Noto Serif",Georgia,"Times New Roman",serif;font-weight:700;font-size:17px;color:var(--paper);letter-spacing:.3px;line-height:1}
+  .tb-tag{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:10px;letter-spacing:.1em;color:var(--amber);border-left:1px solid var(--line-dark);padding-left:11px;text-transform:uppercase}
   .topbar__spacer{flex:1}
   .topbar__prog{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted-ink)}
   .topbar__bar{width:120px;height:6px;border-radius:99px;background:#3a2e20;overflow:hidden}
@@ -285,9 +287,16 @@
   .callout b{color:#E7A65A}
 
   /* footer */
-  footer{background:var(--ink);color:var(--muted-ink);border-top:1px solid var(--line-dark);padding:32px 0}
-  footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;font-family:"JetBrains Mono",monospace;font-size:11.5px}
-  footer b{color:var(--paper);font-family:"Manrope";font-weight:700}
+  footer{background:var(--ink);color:var(--muted-ink);border-top:1px solid var(--line-dark);padding:34px 0}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:center}
+  .logo-plate{display:inline-flex;align-items:center;gap:16px;background:#fff;border-radius:14px;padding:14px 22px;box-shadow:var(--shadow-lg)}
+  .logo-mark{width:60px;height:60px;flex:none;display:block}
+  .logo-words{display:flex;flex-direction:column;line-height:1}
+  .logo-name{font-family:"Noto Serif",Georgia,"Times New Roman",serif;font-weight:700;font-size:27px;color:#1b1b1b;letter-spacing:.4px}
+  .logo-tag{font-family:"Inter",sans-serif;font-weight:600;font-size:8.5px;letter-spacing:.17em;color:#6f6f6f;margin-top:7px}
+  .footer-meta{display:flex;flex-direction:column;gap:6px;font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--muted-ink);text-align:right}
+  .footer-meta b{color:var(--paper);font-family:"Manrope";font-weight:700}
+  @media(max-width:560px){.footer-meta{text-align:left}.logo-name{font-size:23px}}
 
   /* responsive */
   @media (max-width:880px){
@@ -299,7 +308,8 @@
   }
   @media (max-width:560px){
     .goals,.grid3,.kpis,.terminal__grid{grid-template-columns:1fr}
-    .topbar__brand{font-size:13px}
+    .topbar__brand .tb-name{font-size:14px}
+    .topbar__brand .tb-tag{display:none}
     .wrap{padding:0 18px}
   }
   @media (prefers-reduced-motion:reduce){
@@ -345,7 +355,20 @@
 <!-- ============ TOP BAR ============ -->
 <div class="topbar">
   <div class="wrap">
-    <div class="topbar__brand">ΣΤΑΥΡΑΚΑΣ <b>·</b> ERP+CRM</div>
+    <div class="topbar__brand">
+      <svg class="tb-mark" viewBox="0 0 100 100" role="img" aria-label="Σταύρακας Α.Ε.">
+        <rect x="2" y="2" width="96" height="96" rx="14" fill="#14A058"/>
+        <g fill="none" stroke="#ffffff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M31 41 L50 19 L69 41"/>
+          <path d="M26 58 L50 33 L74 58"/>
+          <path d="M22 73 L50 47 L78 73"/>
+        </g>
+        <rect x="45.5" y="69" width="9" height="17" rx="2" fill="#ffffff"/>
+        <path d="M50 20 L50 73" stroke="#14A058" stroke-width="3.6" stroke-linecap="round"/>
+      </svg>
+      <span class="tb-name">Σταύρακας Α.Ε.</span>
+      <span class="tb-tag">ERP+CRM</span>
+    </div>
     <div class="topbar__spacer"></div>
     <div class="topbar__prog">
       <span>Συνολική πρόοδος</span>
@@ -847,8 +870,26 @@
 
 <footer>
   <div class="wrap">
-    <span>Σταύρακας Α.Ε. · ERP+CRM Spec &amp; Roadmap · <b>v0.1</b></span>
-    <span>Phase 1 — Mockup · 13 Ιουν 2026 · Next2Me Group</span>
+    <div class="logo-plate">
+      <svg class="logo-mark" viewBox="0 0 100 100" role="img" aria-label="Σταύρακας Α.Ε.">
+        <rect x="2" y="2" width="96" height="96" rx="9" fill="#14A058"/>
+        <g fill="none" stroke="#ffffff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M31 41 L50 19 L69 41"/>
+          <path d="M26 58 L50 33 L74 58"/>
+          <path d="M22 73 L50 47 L78 73"/>
+        </g>
+        <rect x="45.5" y="69" width="9" height="17" rx="2" fill="#ffffff"/>
+        <path d="M50 20 L50 73" stroke="#14A058" stroke-width="3.6" stroke-linecap="round"/>
+      </svg>
+      <div class="logo-words">
+        <span class="logo-name">Σταύρακας Α.Ε.</span>
+        <span class="logo-tag">ΕΜΠΟΡΙΟ ΚΑΙ ΚΑΤΕΡΓΑΣΙΑ ΞΥΛΟΥ</span>
+      </div>
+    </div>
+    <div class="footer-meta">
+      <span>ERP+CRM Spec &amp; Roadmap · <b>v0.1</b></span>
+      <span>Phase 1 — Mockup · 13 Ιουν 2026 · Next2Me Group</span>
+    </div>
   </div>
 </footer>
 
