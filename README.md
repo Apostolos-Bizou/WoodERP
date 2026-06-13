@@ -35,12 +35,26 @@
 
 ```
 WoodERP/
-├─ index.html        # Spec & Roadmap (το ίδιο με το docs, για GitHub Pages preview)
+├─ index.html                         # GitHub Pages entry = τελευταίο roadmap (v4)
 ├─ docs/
-│  └─ Stavrakas_ERP_CRM_Roadmap.html   # αρχικό spec/roadmap
+│  ├─ roadmap/                         # το οπτικό HTML roadmap
+│  │  ├─ Stavrakas_ERP_CRM_Roadmap.html      # canonical (latest)
+│  │  └─ versions/                           # ιστορικό εκδόσεων
+│  │     ├─ ..._Roadmap_v1_2026-06-13_1428.html
+│  │     ├─ ..._Roadmap_v2_2026-06-13_1452.html
+│  │     ├─ ..._Roadmap_v3_2026-06-13_1519.html
+│  │     └─ ..._Roadmap_v4_2026-06-13_1554.html
+│  └─ spec/                            # το κειμενικό spec
+│     ├─ Stavrakas_ERP_CRM_Spec.md           # canonical (latest)
+│     └─ versions/
+│        └─ Stavrakas_ERP_CRM_Spec_v0.1_2026-06-13.md
 ├─ README.md
 └─ CLAUDE.md
 ```
+
+> Εκδόσεις: κάθε τύπος παραδοτέου (roadmap HTML / spec MD) έχει το δικό του canonical
+> «latest» + `versions/` με date-stamped ιστορικό. Το `index.html` (root) είναι αντίγραφο
+> του τελευταίου roadmap, απαραίτητο ως είσοδος του GitHub Pages.
 
 ## Roadmap (Group lifecycle)
 

@@ -8,6 +8,12 @@
 - **GitHub:** `Apostolos-Bizou/WoodERP` (public) · GitHub Pages preview από `index.html`
 - **Local archive:** `C:\Users\akage\Documents\Projects\WoodERP`
 
+## Δομή αρχείων & εκδόσεις
+- `index.html` (root) = GitHub Pages entry, αντίγραφο του τελευταίου roadmap.
+- `docs/roadmap/` → canonical `Stavrakas_ERP_CRM_Roadmap.html` + `versions/` (date-stamped ιστορικό).
+- `docs/spec/` → canonical `Stavrakas_ERP_CRM_Spec.md` + `versions/` (date-stamped ιστορικό).
+- **Κανόνας έκδοσης:** νέα έκδοση → ενημέρωσε canonical (+ root index.html για roadmap) ΚΑΙ πρόσθεσε date-stamped αντίγραφο στο αντίστοιχο `versions/`. Ποτέ μην σβήνεις παλιές εκδόσεις.
+
 ## Κανόνες φάσης (group-lifecycle)
 - Είμαστε σε **Φάση 1**: single-file HTML mockups, **fake data μόνο**.
 - ❌ ΟΧΙ real backend, ❌ ΟΧΙ real auth, ❌ ΟΧΙ PII, ❌ ΟΧΙ custom domain, ❌ ΟΧΙ real users.
