@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Σταύρακας Α.Ε. — ERP + CRM · Roadmap & Spec</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600;700&family=Noto+Serif:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* timber × terminal palette */
+    --ink:#241C14;          /* roasted espresso-wood (hero / dark) */
+    --ink-2:#312619;
+    --paper:#F5F1E9;        /* warm worktop paper */
+    --paper-2:#FBF9F4;
+    --card:#FFFFFF;
+    --line:#E4DCCD;         /* hairline on paper */
+    --line-dark:#4A3B2A;    /* hairline on ink */
+    --text:#2C2318;
+    --muted:#7C7263;
+    --muted-ink:#B6A88F;
+
+    /* accents */
+    --teal:#1F6F6B;         /* Ionian pine — primary / CRM / "done" */
+    --teal-soft:#E2EEEC;
+    --amber:#B9762A;        /* sawdust gold — orders / active */
+    --amber-soft:#F4E8D6;
+    --walnut:#8A5A3B;       /* fulfillment / warehouse */
+    --walnut-soft:#EFE3D8;
+    --indigo:#43508C;       /* finance */
+    --indigo-soft:#E3E5F1;
+    --slate:#2F6C8F;        /* logistics */
+    --slate-soft:#DDEAF1;
+
+    --green:#2E8B57;
+    --red:#C0492B;
+    --red-soft:#F4DED6;
+
+    --radius:14px;
+    --shadow:0 1px 2px rgba(36,28,20,.05), 0 8px 28px -14px rgba(36,28,20,.18);
+    --shadow-lg:0 24px 60px -28px rgba(36,28,20,.45);
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:"Inter",system-ui,sans-serif;
+    color:var(--text);
+    background:var(--paper);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+  .mono{font-family:"JetBrains Mono",monospace}
+
+  /* ---------- sticky top bar ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(36,28,20,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line-dark);
+    color:var(--paper);
+  }
+  .topbar .wrap{display:flex;align-items:center;gap:18px;height:56px}
+  .topbar__brand{display:flex;align-items:center;gap:11px}
+  .tb-mark{width:30px;height:30px;flex:none;display:block;border-radius:6px}
+  .tb-name{font-family:"Noto Serif",Georgia,"Times New Roman",serif;font-weight:700;font-size:17px;color:var(--paper);letter-spacing:.3px;line-height:1}
+  .tb-tag{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:10px;letter-spacing:.1em;color:var(--amber);border-left:1px solid var(--line-dark);padding-left:11px;text-transform:uppercase}
+  .topbar__spacer{flex:1}
+  .topbar__prog{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted-ink)}
+  .topbar__bar{width:120px;height:6px;border-radius:99px;background:#3a2e20;overflow:hidden}
+  .topbar__bar i{display:block;height:100%;width:28%;background:linear-gradient(90deg,var(--teal),var(--amber));border-radius:99px}
+  .btn-print{
+    font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.04em;
+    color:var(--paper);background:transparent;border:1px solid var(--line-dark);
+    padding:7px 12px;border-radius:9px;cursor:pointer;display:inline-flex;gap:7px;align-items:center;text-transform:uppercase;
+    transition:background .2s,border-color .2s;
+  }
+  .btn-print:hover{background:#352a1c;border-color:var(--amber)}
+
+  /* ---------- hero (terminal) ---------- */
+  .hero{
+    background:
+      radial-gradient(900px 380px at 82% -10%, rgba(185,118,42,.20), transparent 60%),
+      radial-gradient(700px 420px at 8% 110%, rgba(31,111,107,.22), transparent 60%),
+      var(--ink);
+    color:var(--paper);
+    border-bottom:1px solid var(--line-dark);
+    overflow:hidden;
+  }
+  .hero .wrap{padding-top:64px;padding-bottom:56px}
+  .eyebrow{
+    font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--amber);display:flex;align-items:center;gap:10px;margin-bottom:22px;
+  }
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--amber)}
+  h1.hero__title{
+    font-family:"Manrope";font-weight:800;letter-spacing:-.025em;line-height:1.02;
+    font-size:clamp(34px,6vw,60px);margin:0 0 18px;
+  }
+  h1.hero__title span{color:var(--amber)}
+  .hero__sub{font-size:clamp(15px,2vw,18px);color:#D9CDB8;max-width:640px;margin:0}
+  .hero__meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+  .chip{
+    font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:600;
+    padding:7px 12px;border-radius:99px;border:1px solid var(--line-dark);
+    background:rgba(255,255,255,.04);color:#E7DCC8;display:inline-flex;gap:8px;align-items:center;
+  }
+  .chip svg{width:14px;height:14px}
+
+  /* terminal strip */
+  .terminal{
+    margin-top:38px;border:1px solid var(--line-dark);border-radius:var(--radius);
+    background:linear-gradient(180deg, rgba(20,15,9,.6), rgba(20,15,9,.25));
+    box-shadow:var(--shadow-lg);overflow:hidden;
+  }
+  .terminal__bar{display:flex;align-items:center;gap:8px;padding:11px 15px;border-bottom:1px solid var(--line-dark);background:rgba(0,0,0,.25)}
+  .dot{width:11px;height:11px;border-radius:99px;background:#6b5740}
+  .dot.r{background:#C0492B}.dot.y{background:#B9762A}.dot.g{background:#2E8B57}
+  .terminal__title{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted-ink);margin-left:8px;letter-spacing:.05em}
+  .terminal__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-dark)}
+  .tstat{background:var(--ink-2);padding:18px 18px 16px}
+  .tstat__k{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-ink)}
+  .tstat__v{font-family:"Manrope";font-weight:800;font-size:26px;margin-top:6px;letter-spacing:-.02em}
+  .tstat__v.teal{color:#5FD0C9}.tstat__v.amber{color:#E7A65A}.tstat__v.red{color:#E68B73}.tstat__v.paper{color:#F0E7D6}
+  .tstat__n{font-size:12px;color:#9C8E78;margin-top:3px}
+
+  /* ---------- generic section ---------- */
+  section{padding:70px 0}
+  .sec-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:34px}
+  .sec-ic{
+    flex:none;width:46px;height:46px;border-radius:12px;display:grid;place-items:center;color:#fff;
+    box-shadow:var(--shadow);
+  }
+  .sec-ic svg{width:24px;height:24px}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+  .sec-head h2{font-family:"Manrope";font-weight:800;font-size:clamp(24px,3.4vw,34px);letter-spacing:-.02em;margin:4px 0 0;line-height:1.1}
+  .sec-head p{margin:8px 0 0;color:var(--muted);max-width:680px;font-size:15px}
+
+  .alt{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+
+  /* ---------- goal cards ---------- */
+  .goals{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .goal{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .goal::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c,var(--teal))}
+  .goal__ic{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:var(--cs,var(--teal-soft));color:var(--c,var(--teal));margin-bottom:14px}
+  .goal__ic svg{width:20px;height:20px}
+  .goal h3{font-family:"Manrope";font-weight:700;font-size:16px;margin:0 0 6px;letter-spacing:-.01em}
+  .goal p{margin:0;font-size:13.5px;color:var(--muted)}
+  .goal .kpi{margin-top:14px;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:13px;color:var(--c,var(--teal));display:flex;align-items:center;gap:7px}
+
+  /* ---------- roadmap / gantt ---------- */
+  .gantt{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+  .gantt__scroll{overflow-x:auto}
+  .gantt__inner{min-width:760px}
+  .gantt__months{display:grid;grid-template-columns:200px repeat(8,1fr);border-bottom:1px solid var(--line);background:var(--paper-2)}
+  .gantt__months span{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);padding:11px 8px;text-align:center;letter-spacing:.04em;border-left:1px solid var(--line)}
+  .gantt__months span:first-child{text-align:left;border-left:0;font-weight:700;color:var(--text)}
+  .grow{display:grid;grid-template-columns:200px repeat(8,1fr);align-items:center;border-bottom:1px solid var(--line);position:relative}
+  .grow:last-child{border-bottom:0}
+  .glabel{padding:14px 14px;display:flex;flex-direction:column;gap:3px}
+  .glabel b{font-family:"Manrope";font-weight:700;font-size:13.5px}
+  .glabel small{font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--muted);letter-spacing:.03em}
+  .gtrack{grid-column:2 / span 8;position:relative;height:100%;display:grid;grid-template-columns:repeat(8,1fr)}
+  .gcell{border-left:1px solid var(--line)}
+  .gbar{position:absolute;top:50%;transform:translateY(-50%);height:26px;border-radius:7px;display:flex;align-items:center;padding:0 10px;font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;color:#fff;white-space:nowrap;box-shadow:var(--shadow)}
+  .gbar.done{background:var(--teal)}
+  .gbar.active{background:repeating-linear-gradient(45deg,var(--amber),var(--amber) 7px,#a86824 7px,#a86824 14px)}
+  .gbar.next{background:#C9BCA6;color:#5a4f3d}
+  .gbar.build{background:var(--walnut)}
+  .gbar.prod{background:var(--indigo)}
+  .today{position:absolute;top:0;bottom:0;width:2px;background:var(--red);z-index:3}
+  .today::after{content:"ΣΗΜΕΡΑ";position:absolute;top:-1px;left:5px;font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:700;color:var(--red);letter-spacing:.1em}
+
+  .legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:18px;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .sw{width:14px;height:10px;border-radius:3px;display:inline-block}
+
+  /* roadmap progress table */
+  .rtable{margin-top:26px;width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+  .rtable th,.rtable td{text-align:left;padding:13px 16px;font-size:13.5px;border-bottom:1px solid var(--line)}
+  .rtable thead th{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--paper-2)}
+  .rtable tbody tr:last-child td{border-bottom:0}
+  .rtable td b{font-family:"Manrope";font-weight:700}
+  .barwrap{display:flex;align-items:center;gap:10px;min-width:140px}
+  .bar{flex:1;height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+  .bar i{display:block;height:100%;width:0;border-radius:99px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+  .pct{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:12px;width:38px;text-align:right}
+
+  /* ---------- problem table ---------- */
+  .ptable{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+  .ptable th,.ptable td{padding:15px 16px;text-align:left;border-bottom:1px solid var(--line);font-size:13.5px;vertical-align:top}
+  .ptable thead th{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--paper-2)}
+  .ptable tbody tr:last-child td{border-bottom:0}
+  .pid{font-family:"JetBrains Mono",monospace;font-weight:700;color:var(--walnut)}
+  .ptable td b{font-family:"Manrope";font-weight:700;display:block;margin-bottom:3px}
+  .sev{font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:700;padding:4px 9px;border-radius:99px;letter-spacing:.04em;white-space:nowrap;text-transform:uppercase}
+  .sev.high{background:var(--red-soft);color:var(--red)}
+  .sev.med{background:var(--amber-soft);color:var(--amber)}
+
+  /* ---------- persona / module grids ---------- */
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .pcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+  .pcard__top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .pcard__ic{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:var(--cs,var(--teal-soft));color:var(--c,var(--teal));flex:none}
+  .pcard__ic svg{width:21px;height:21px}
+  .pcard h3{font-family:"Manrope";font-weight:700;font-size:15px;margin:0;letter-spacing:-.01em}
+  .pcard .role{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);margin-top:2px}
+  .pcard ul{margin:0;padding-left:18px;font-size:13px;color:var(--muted)}
+  .pcard ul li{margin:3px 0}
+
+  .mnum{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;color:var(--c,var(--teal));letter-spacing:.05em}
+
+  /* ---------- epics / user stories ---------- */
+  .epic{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:22px;background:var(--card)}
+  .epic__head{display:flex;align-items:center;gap:16px;padding:18px 22px;color:#fff;background:var(--c,var(--teal))}
+  .epic__ic{width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.16);display:grid;place-items:center;flex:none}
+  .epic__ic svg{width:22px;height:22px}
+  .epic__t{flex:1}
+  .epic__t .lbl{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.12em;opacity:.85;text-transform:uppercase}
+  .epic__t h3{font-family:"Manrope";font-weight:800;font-size:19px;margin:2px 0 0;letter-spacing:-.01em}
+  .epic__prog{display:flex;flex-direction:column;gap:7px;min-width:190px}
+  .epic__prog .row{display:flex;align-items:center;gap:9px;font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.04em}
+  .epic__prog .row .lab{width:78px;opacity:.9}
+  .epic__prog .pbar{flex:1;height:6px;border-radius:99px;background:rgba(255,255,255,.22);overflow:hidden}
+  .epic__prog .pbar i{display:block;height:100%;width:0;background:#fff;border-radius:99px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+  .epic__start{padding:11px 22px;background:var(--paper-2);border-bottom:1px solid var(--line);font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:18px}
+  .epic__start b{color:var(--text)}
+
+  .stable{width:100%;border-collapse:collapse}
+  .stable th,.stable td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);font-size:13.5px;vertical-align:top}
+  .stable thead th{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);background:#fff}
+  .stable tbody tr:last-child td{border-bottom:0}
+  .stable tbody tr:hover{background:var(--paper-2)}
+  .sidc{font-family:"JetBrains Mono",monospace;font-weight:700;color:var(--c,var(--teal));white-space:nowrap}
+  .ac{color:var(--muted);font-size:12.5px}
+  .moscow{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:700;padding:4px 8px;border-radius:6px;letter-spacing:.05em;white-space:nowrap}
+  .m-M{background:var(--red-soft);color:var(--red)}
+  .m-S{background:var(--amber-soft);color:var(--amber)}
+  .m-C{background:var(--teal-soft);color:var(--teal)}
+
+  /* ---------- state machine ---------- */
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+  .state{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;padding:10px 14px;border-radius:9px;background:var(--ink);color:var(--paper);white-space:nowrap}
+  .state.k{background:var(--teal)}
+  .state.pay{background:var(--amber)}
+  .state.done{background:var(--green)}
+  .state.cancel{background:var(--red)}
+  .arrow{color:var(--muted)}
+  .flow-note{margin-top:16px;font-size:13px;color:var(--muted);display:flex;gap:10px;align-items:flex-start}
+  .flow-note svg{width:18px;height:18px;color:var(--amber);flex:none;margin-top:2px}
+
+  /* ---------- data model + kpi ---------- */
+  .dtable{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+  .dtable th,.dtable td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);font-size:13px;vertical-align:top}
+  .dtable thead th{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);background:var(--paper-2)}
+  .dtable tbody tr:last-child td{border-bottom:0}
+  .dtable .ent{font-family:"JetBrains Mono",monospace;font-weight:700;color:var(--indigo)}
+
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .kpi-c{background:var(--ink);color:var(--paper);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);position:relative;overflow:hidden;border:1px solid var(--line-dark)}
+  .kpi-c .k{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-ink)}
+  .kpi-c .v{font-family:"Manrope";font-weight:800;font-size:24px;margin-top:8px;letter-spacing:-.02em;color:#F0E7D6}
+  .kpi-c .v.teal{color:#5FD0C9}.kpi-c .v.amber{color:#E7A65A}
+
+  /* ---------- mockup checklist ---------- */
+  .checks{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .check{display:flex;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+  .check__n{font-family:"Manrope";font-weight:800;font-size:22px;color:var(--amber);flex:none;width:34px}
+  .check h4{font-family:"Manrope";font-weight:700;font-size:14.5px;margin:0 0 4px}
+  .check p{margin:0 0 10px;font-size:12.5px;color:var(--muted)}
+  .check .meta{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);display:flex;gap:14px;align-items:center}
+
+  /* ---------- open questions ---------- */
+  .ql{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .ql li{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--amber);border-radius:10px;padding:16px 18px;display:flex;gap:13px;font-size:13.5px}
+  .ql li .qn{font-family:"JetBrains Mono",monospace;font-weight:700;color:var(--amber);flex:none}
+
+  /* change mgmt callout */
+  .callout{background:linear-gradient(120deg,var(--ink),var(--ink-2));color:var(--paper);border-radius:var(--radius);padding:34px;box-shadow:var(--shadow-lg);border:1px solid var(--line-dark)}
+  .callout .eyebrow{margin-bottom:14px}
+  .callout h3{font-family:"Manrope";font-weight:800;font-size:22px;margin:0 0 14px;letter-spacing:-.01em}
+  .callout ul{margin:0;padding-left:20px;color:#DCD0BB}
+  .callout ul li{margin:8px 0}
+  .callout b{color:#E7A65A}
+
+  /* footer */
+  footer{background:var(--ink);color:var(--muted-ink);border-top:1px solid var(--line-dark);padding:34px 0}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:center}
+  .logo-plate{display:inline-flex;align-items:center;gap:16px;background:#fff;border-radius:14px;padding:14px 22px;box-shadow:var(--shadow-lg)}
+  .logo-mark{width:60px;height:60px;flex:none;display:block}
+  .logo-words{display:flex;flex-direction:column;line-height:1}
+  .logo-name{font-family:"Noto Serif",Georgia,"Times New Roman",serif;font-weight:700;font-size:27px;color:#1b1b1b;letter-spacing:.4px}
+  .logo-tag{font-family:"Inter",sans-serif;font-weight:600;font-size:8.5px;letter-spacing:.17em;color:#6f6f6f;margin-top:7px}
+  .footer-meta{display:flex;flex-direction:column;gap:6px;font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--muted-ink);text-align:right}
+  .footer-meta b{color:var(--paper);font-family:"Manrope";font-weight:700}
+  @media(max-width:560px){.footer-meta{text-align:left}.logo-name{font-size:23px}}
+
+  /* responsive */
+  @media (max-width:880px){
+    .goals,.grid3,.kpis{grid-template-columns:1fr 1fr}
+    .terminal__grid{grid-template-columns:1fr 1fr}
+    .grid2,.checks,.ql{grid-template-columns:1fr}
+    .epic__head{flex-wrap:wrap}
+    .epic__prog{min-width:100%}
+  }
+  @media (max-width:560px){
+    .goals,.grid3,.kpis,.terminal__grid{grid-template-columns:1fr}
+    .topbar__brand .tb-name{font-size:14px}
+    .topbar__brand .tb-tag{display:none}
+    .wrap{padding:0 18px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .bar i,.epic__prog .pbar i{transition:none!important}
+    html{scroll-behavior:auto}
+  }
+  @media print{
+    .topbar,.btn-print{display:none}
+    body{background:#fff}
+    section{padding:26px 0;break-inside:avoid}
+    .hero .wrap{padding:30px 0}
+    .epic,.gantt,.rtable,.ptable,.pcard,.goal,.kpi-c{break-inside:avoid}
+    .bar i,.epic__prog .pbar i{transition:none!important}
+  }
+
+  /* icon defs hidden */
+  .icons{position:absolute;width:0;height:0;overflow:hidden}
+</style>
+</head>
+<body>
+
+<!-- ============ ICON SPRITE ============ -->
+<svg class="icons" aria-hidden="true">
+  <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 9h18"/><circle cx="16.5" cy="13" r="1.3" fill="currentColor"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8v8l9 5 9-5V8z"/><path d="m3 8 9 5 9-5"/><path d="M12 13v8"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4a3 3 0 0 1 6 0"/><path d="M8.5 11h7M8.5 15h5"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v9H3z"/><path d="M14 9h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 5.5a3 3 0 0 1 0 5.8M21 20a6 6 0 0 0-4-5.6"/></symbol>
+  <symbol id="i-gauge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16a9 9 0 1 1 18 0"/><path d="M12 16l4-4"/><circle cx="12" cy="16" r="1.3" fill="currentColor"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-flow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="6" height="5" rx="1.2"/><rect x="15" y="15" width="6" height="5" rx="1.2"/><path d="M9 6.5h4a2 2 0 0 1 2 2v9"/></symbol>
+  <symbol id="i-db" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></symbol>
+  <symbol id="i-q" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 0 1 4.5 1.5c0 1.7-2.5 2-2.5 3.5"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="4" y="9" width="16" height="8" rx="1.5"/><path d="M7 17h10v4H7z"/></symbol>
+  <symbol id="i-tree" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 7 10h3l-4 6h5v5h2v-5h5l-4-6h3z"/></symbol>
+</svg>
+
+<!-- ============ TOP BAR ============ -->
+<div class="topbar">
+  <div class="wrap">
+    <div class="topbar__brand">
+      <svg class="tb-mark" viewBox="0 0 100 100" role="img" aria-label="Σταύρακας Α.Ε.">
+        <rect x="2" y="2" width="96" height="96" rx="14" fill="#14A058"/>
+        <g fill="none" stroke="#ffffff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M31 41 L50 19 L69 41"/>
+          <path d="M26 58 L50 33 L74 58"/>
+          <path d="M22 73 L50 47 L78 73"/>
+        </g>
+        <rect x="45.5" y="69" width="9" height="17" rx="2" fill="#ffffff"/>
+        <path d="M50 20 L50 73" stroke="#14A058" stroke-width="3.6" stroke-linecap="round"/>
+      </svg>
+      <span class="tb-name">Σταύρακας Α.Ε.</span>
+      <span class="tb-tag">ERP+CRM</span>
+    </div>
+    <div class="topbar__spacer"></div>
+    <div class="topbar__prog">
+      <span>Συνολική πρόοδος</span>
+      <div class="topbar__bar"><i></i></div>
+      <span class="mono">28%</span>
+    </div>
+    <button class="btn-print" onclick="window.print()"><svg><use href="#i-print"/></svg> Εκτύπωση / PDF</button>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><svg style="width:14px;height:14px"><use href="#i-tree"/></svg> Spec &amp; Roadmap · Phase 1 — Mockup · v0.1</div>
+    <h1 class="hero__title">Ψηφιοποίηση εργοστασίου<br><span>ERP + CRM, όλα σε ένα.</span></h1>
+    <p class="hero__sub">Από το χαρτί &amp; τη «μνήμη στο μυαλό» — σε ζωντανή εικόνα παραγγελιών, αποθήκης και ταμείου. Ένα σύστημα που <b style="color:#E7A65A">ενισχύει</b> τον τρόπο που ήδη δουλεύει η επιχείρηση και επιστρέφει χρόνο στον CEO.</p>
+
+    <div class="hero__meta">
+      <span class="chip"><svg><use href="#i-users"/></svg> Discovery: Κ. Σταύρακας · Κωνσταντίνα · Α. Καγκελάρης</span>
+      <span class="chip"><svg><use href="#i-box"/></svg> Σταύρακας Α.Ε. — Εμπόριο Ξυλείας, Λευκάδα</span>
+      <span class="chip"><svg><use href="#i-cal"/></svg> 13 Ιουν 2026</span>
+    </div>
+
+    <div class="terminal">
+      <div class="terminal__bar">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="terminal__title">ceo_terminal — live snapshot (mock)</span>
+      </div>
+      <div class="terminal__grid">
+        <div class="tstat"><div class="tstat__k">Χρόνος CEO / μέρα</div><div class="tstat__v red">&gt;30′</div><div class="tstat__n">σε 10 logins τραπεζών</div></div>
+        <div class="tstat"><div class="tstat__k">Στόχος</div><div class="tstat__v teal">~5″</div><div class="tstat__n">ένα ενιαίο dashboard</div></div>
+        <div class="tstat"><div class="tstat__k">Εικόνα αποθήκης</div><div class="tstat__v amber">0%</div><div class="tstat__n">σήμερα: εμπειρική</div></div>
+        <div class="tstat"><div class="tstat__k">Pending ορατότητα</div><div class="tstat__v paper">—</div><div class="tstat__n">σήμερα: στο χαρτί</div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ ΣΤΟΧΟΙ ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-ic" style="background:var(--teal)"><svg><use href="#i-target"/></svg></div>
+      <div><div class="sec-num">01 — Objectives</div><h2>Οι στόχοι του έργου</h2>
+      <p>Έξι μετρήσιμα αποτελέσματα που θα κρίνουν την επιτυχία. Κάθε στόχος αντιστοιχεί σε έναν πραγματικό πόνο από τη συζήτηση.</p></div>
+    </div>
+    <div class="goals">
+      <div class="goal" style="--c:var(--indigo);--cs:var(--indigo-soft)">
+        <div class="goal__ic"><svg><use href="#i-wallet"/></svg></div>
+        <h3>Χρόνος στον CEO</h3>
+        <p>Ενιαίο ταμειακό dashboard αντί για 10 logins τραπεζών κάθε μέρα.</p>
+        <div class="kpi"><svg style="width:14px;height:14px"><use href="#i-clock"/></svg> &gt;30′ → δευτερόλεπτα</div>
+      </div>
+      <div class="goal" style="--c:var(--walnut);--cs:var(--walnut-soft)">
+        <div class="goal__ic"><svg><use href="#i-box"/></svg></div>
+        <h3>Ορατότητα αποθήκης</h3>
+        <p>Real-time stock ανά κωδικό &amp; κτίριο — να απαντάμε «το έχουμε;» με σιγουριά.</p>
+        <div class="kpi"><svg style="width:14px;height:14px"><use href="#i-gauge"/></svg> 0% → live KPIs</div>
+      </div>
+      <div class="goal" style="--c:var(--amber);--cs:var(--amber-soft)">
+        <div class="goal__ic"><svg><use href="#i-clip"/></svg></div>
+        <h3>Ψηφιακό δελτίο</h3>
+        <p>Παραγγελία επί τόπου σε tablet — τέλος στο χαρτί που «κάνει βόλτες».</p>
+        <div class="kpi"><svg style="width:14px;height:14px"><use href="#i-bolt"/></svg> χαρτί → ροή</div>
+      </div>
+      <div class="goal" style="--c:var(--teal);--cs:var(--teal-soft)">
+        <div class="goal__ic"><svg><use href="#i-flow"/></svg></div>
+        <h3>Ορατές εκκρεμότητες</h3>
+        <p>Κάθε pending παραγγελία ορατή — όχι «κρυμμένη» στη μνήμη.</p>
+        <div class="kpi"><svg style="width:14px;height:14px"><use href="#i-spark"/></svg> μνήμη → λίστα</div>
+      </div>
+      <div class="goal" style="--c:var(--slate);--cs:var(--slate-soft)">
+        <div class="goal__ic"><svg><use href="#i-truck"/></svg></div>
+        <h3>Αξιόπιστα ETA</h3>
+        <p>Δρομολόγια ανά ζώνη &amp; τονάζ — «Πέμπτη σημαίνει Πέμπτη».</p>
+        <div class="kpi"><svg style="width:14px;height:14px"><use href="#i-cal"/></svg> πρόγραμμα στόλου</div>
+      </div>
+      <div class="goal" style="--c:var(--indigo);--cs:var(--indigo-soft)">
+        <div class="goal__ic"><svg><use href="#i-users"/></svg></div>
+        <h3>Διατήρηση σχέσης</h3>
+        <p>Ιστορικό &amp; ταυτότητα πελάτη — η γνώση να μη ζει μόνο στο μυαλό ενός ανθρώπου.</p>
+        <div class="kpi"><svg style="width:14px;height:14px"><use href="#i-target"/></svg> CRM καρτέλα</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ROADMAP / GANTT ============ -->
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-ic" style="background:var(--amber)"><svg><use href="#i-cal"/></svg></div>
+      <div><div class="sec-num">02 — Roadmap</div><h2>Χρονοδιάγραμμα &amp; πρόοδος</h2>
+      <p>Οι 5 φάσεις του Group lifecycle. Είμαστε στην αρχή της Φάσης 1 — η ανάλυση &amp; το spec ολοκληρώθηκαν.</p></div>
+    </div>
+
+    <div class="gantt">
+      <div class="gantt__scroll"><div class="gantt__inner">
+        <div class="gantt__months">
+          <span>Φάση / Task</span><span>Ιουν</span><span>Ιουλ</span><span>Αυγ</span><span>Σεπ</span><span>Οκτ</span><span>Νοε</span><span>Δεκ</span><span>Ιαν</span>
+        </div>
+
+        <div class="grow">
+          <div class="glabel"><b>0 · Discovery</b><small>συνέντευξη CEO</small></div>
+          <div class="gtrack">
+            <div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div>
+            <div class="today" style="left:6%"></div>
+            <div class="gbar done" style="left:1%;width:10%">100%</div>
+          </div>
+        </div>
+
+        <div class="grow">
+          <div class="glabel"><b>1a · Spec (αυτό)</b><small>user stories + data model</small></div>
+          <div class="gtrack">
+            <div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div>
+            <div class="gbar done" style="left:6%;width:11%">100%</div>
+          </div>
+        </div>
+
+        <div class="grow">
+          <div class="glabel"><b>1b · Mockup</b><small>5 οθόνες HTML</small></div>
+          <div class="gtrack">
+            <div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div>
+            <div class="gbar active" style="left:9%;width:17%">5%</div>
+          </div>
+        </div>
+
+        <div class="grow">
+          <div class="glabel"><b>2 · Brand</b><small>λογότυπο &amp; παλέτα</small></div>
+          <div class="gtrack">
+            <div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div>
+            <div class="gbar next" style="left:14%;width:11%">0%</div>
+          </div>
+        </div>
+
+        <div class="grow">
+          <div class="glabel"><b>3 · Validation</b><small>feedback ομάδας / CEO</small></div>
+          <div class="gtrack">
+            <div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div>
+            <div class="gbar next" style="left:21%;width:17%">0%</div>
+          </div>
+        </div>
+
+        <div class="grow">
+          <div class="glabel"><b>4 · Build</b><small>Vue + Spring + Postgres</small></div>
+          <div class="gtrack">
+            <div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div>
+            <div class="gbar build" style="left:38%;width:34%">0%</div>
+          </div>
+        </div>
+
+        <div class="grow">
+          <div class="glabel"><b>5 · Production</b><small>Azure · real users</small></div>
+          <div class="gtrack">
+            <div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div>
+            <div class="gbar prod" style="left:74%;width:24%">0%</div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="legend">
+      <span><i class="sw" style="background:var(--teal)"></i> Ολοκληρωμένο</span>
+      <span><i class="sw" style="background:var(--amber)"></i> Σε εξέλιξη</span>
+      <span><i class="sw" style="background:var(--walnut)"></i> Build</span>
+      <span><i class="sw" style="background:var(--indigo)"></i> Production</span>
+      <span><i class="sw" style="background:#C9BCA6"></i> Προγραμματισμένο</span>
+      <span><i class="sw" style="background:var(--red);width:3px"></i> Σήμερα</span>
+    </div>
+
+    <table class="rtable">
+      <thead><tr><th>Φάση / Task</th><th>Έναρξη</th><th>Παραδοτέο</th><th style="width:200px">Ολοκλήρωση</th></tr></thead>
+      <tbody>
+        <tr><td><b>0 · Discovery</b></td><td class="mono">13 Ιουν 2026</td><td>Συνέντευξη &amp; καταγραφή πόνων</td><td><div class="barwrap"><div class="bar"><i data-p="100" style="background:var(--teal)"></i></div><span class="pct">100%</span></div></td></tr>
+        <tr><td><b>1a · Spec</b></td><td class="mono">13 Ιουν 2026</td><td>User stories + data model</td><td><div class="barwrap"><div class="bar"><i data-p="100" style="background:var(--teal)"></i></div><span class="pct">100%</span></div></td></tr>
+        <tr><td><b>1b · Mockup</b></td><td class="mono">16 Ιουν 2026</td><td>5 οθόνες HTML (fake data)</td><td><div class="barwrap"><div class="bar"><i data-p="5" style="background:var(--amber)"></i></div><span class="pct">5%</span></div></td></tr>
+        <tr><td><b>2 · Brand</b></td><td class="mono">1 Ιουλ 2026</td><td>Λογότυπο, παλέτα, typography</td><td><div class="barwrap"><div class="bar"><i data-p="0" style="background:var(--walnut)"></i></div><span class="pct">0%</span></div></td></tr>
+        <tr><td><b>3 · Validation</b></td><td class="mono">11 Ιουλ 2026</td><td>Go / no-go από CEO</td><td><div class="barwrap"><div class="bar"><i data-p="0" style="background:var(--slate)"></i></div><span class="pct">0%</span></div></td></tr>
+        <tr><td><b>4 · Build</b></td><td class="mono">1 Σεπ 2026</td><td>Group Standard, local + dummy data</td><td><div class="barwrap"><div class="bar"><i data-p="0" style="background:var(--walnut)"></i></div><span class="pct">0%</span></div></td></tr>
+        <tr><td><b>5 · Production</b></td><td class="mono">Δεκ 2026</td><td>Azure · live · real users</td><td><div class="barwrap"><div class="bar"><i data-p="0" style="background:var(--indigo)"></i></div><span class="pct">0%</span></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ ΠΡΟΒΛΗΜΑΤΑ ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-ic" style="background:var(--red)"><svg><use href="#i-bolt"/></svg></div>
+      <div><div class="sec-num">03 — Problem Inventory</div><h2>Τα 7 προβλήματα που εντοπίστηκαν</h2>
+      <p>Ό,τι βγήκε καθαρά μέσα από τη συζήτηση discovery, ταξινομημένο κατά περιοχή και σοβαρότητα.</p></div>
+    </div>
+    <table class="ptable">
+      <thead><tr><th style="width:60px">#</th><th>Περιοχή &amp; πρόβλημα</th><th>Επίπτωση</th><th style="width:90px">Σοβ/τα</th></tr></thead>
+      <tbody>
+        <tr><td class="pid">P1</td><td><b>Ταμειακή ορατότητα</b>Ο CEO χάνει &gt;30′/μέρα μπαίνοντας σε ~10 τράπεζες· αρνείται κι άλλους λογαριασμούς λόγω overhead.</td><td>Χαμένος χρόνος ηγεσίας, αργές αποφάσεις, τυφλά σημεία ρευστότητας.</td><td><span class="sev high">Υψηλή</span></td></tr>
+        <tr><td class="pid">P2</td><td><b>Αποθήκη / Stock</b>Καμία εικόνα αποθέματος σε πραγματικό χρόνο — υπάρχει μόνο «εμπειρικά», στο μυαλό.</td><td>Χαμένες πωλήσεις, λάθος παραγγελίες προμηθευτών, μη αποδείξιμη εικόνα.</td><td><span class="sev high">Υψηλή</span></td></tr>
+        <tr><td class="pid">P3</td><td><b>Παραγγελιοληψία</b>Χάρτινη φόρμα που «κάνει βόλτες», δυσανάγνωστη· καμία ορατότητα pending παραγγελιών.</td><td>Λάθη, καθυστερήσεις, χαμένες παραγγελίες, εξάρτηση από πρόσωπα.</td><td><span class="sev high">Υψηλή</span></td></tr>
+        <tr><td class="pid">P4</td><td><b>Εκτέλεση &amp; φόρτωση</b>Δεν υπάρχει επιβεβαίωση «φορτώθηκε» ούτε απόδειξη· το γραφείο δεν ξέρει αν/πότε έφυγε.</td><td>Διαφωνίες, μη-χρεωμένα εμπορεύματα, «έφυγε χωρίς να το πάρει».</td><td><span class="sev med">Μεσαία</span></td></tr>
+        <tr><td class="pid">P5</td><td><b>Δρομολόγηση / ETA</b>Καμία οργάνωση δρομολογίων ανά ζώνη / τονάζ / χωρητικότητα φορτηγού.</td><td>Αναξιόπιστα ETA, κακή αξιοποίηση ιδιόκτητου στόλου.</td><td><span class="sev med">Μεσαία</span></td></tr>
+        <tr><td class="pid">P6</td><td><b>CRM / σχέση πελάτη</b>Όλη η γνώση του πελάτη ζει στο μυαλό του έμπειρου ανθρώπου στην είσοδο.</td><td>Μη κλιμακώσιμο, ευάλωτο, καμία ιστορικότητα.</td><td><span class="sev med">Μεσαία</span></td></tr>
+        <tr><td class="pid">P7</td><td><b>Κωδικοποίηση προϊόντων</b>Μόνο οι Μελαμίνες έχουν κωδικούς· η ξυλεία είναι custom (σχέδια μαραγκού). Δεν θέλουν υπερ-κωδικοποίηση.</td><td>Δύσκολο «καλούπι» χωρίς να σπάσει η ευελιξία.</td><td><span class="sev med">Μεσαία</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ PERSONAS ============ -->
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-ic" style="background:var(--slate)"><svg><use href="#i-users"/></svg></div>
+      <div><div class="sec-num">04 — Personas</div><h2>Ποιοι θα το χρησιμοποιούν</h2>
+      <p>Οι ρόλοι όπως εμφανίστηκαν στο discovery — με τα πραγματικά ονόματα ως παραδείγματα.</p></div>
+    </div>
+    <div class="grid3">
+      <div class="pcard"><div class="pcard__top"><div class="pcard__ic" style="--c:var(--indigo);--cs:var(--indigo-soft)"><svg><use href="#i-wallet"/></svg></div><div><h3>CEO / Οικονομικός εγκέφαλος</h3><div class="role">Κώστας Σταύρακας</div></div></div><ul><li>Live ταμειακή θέση</li><li>Υποχρεώσεις προς πληρωμή</li><li>Αποφάσεις αγορών με νούμερα</li></ul></div>
+      <div class="pcard"><div class="pcard__top"><div class="pcard__ic" style="--c:var(--teal);--cs:var(--teal-soft)"><svg><use href="#i-users"/></svg></div><div><h3>Front-office υποδοχής</h3><div class="role">«πρωτογραφείο»</div></div></div><ul><li>Γρήγορο άνοιγμα παραγγελίας</li><li>Καρτέλα &amp; ιστορικό πελάτη</li></ul></div>
+      <div class="pcard"><div class="pcard__top"><div class="pcard__ic" style="--c:var(--walnut);--cs:var(--walnut-soft)"><svg><use href="#i-box"/></svg></div><div><h3>Υπεύθυνος χώρου</h3><div class="role">Τάσος (3ο), Παναγιώτης (αυλή)</div></div></div><ul><li>Ειδοποίηση παραγγελίας</li><li>Picking + «Φορτώθηκε» + φωτό</li></ul></div>
+      <div class="pcard"><div class="pcard__top"><div class="pcard__ic" style="--c:var(--amber);--cs:var(--amber-soft)"><svg><use href="#i-clip"/></svg></div><div><h3>Λογιστήριο</h3><div class="role">Γεωργία</div></div></div><ul><li>pending → προς πληρωμή → πληρωμή</li><li>Χρεώσεις ανά χώρο/άτομο</li></ul></div>
+      <div class="pcard"><div class="pcard__top"><div class="pcard__ic" style="--c:var(--slate);--cs:var(--slate-soft)"><svg><use href="#i-truck"/></svg></div><div><h3>Οδηγός / Logistics</h3><div class="role">ιδιόκτητος στόλος</div></div></div><ul><li>Πρόγραμμα δρομολογίων ανά ζώνη</li><li>Λίστα φόρτωσης</li></ul></div>
+      <div class="pcard"><div class="pcard__top"><div class="pcard__ic" style="--c:var(--walnut);--cs:var(--walnut-soft)"><svg><use href="#i-flow"/></svg></div><div><h3>Πελάτης / Συνεργάτης</h3><div class="role">walk-in · μαραγκός</div></div></div><ul><li>Ενημέρωση κατάστασης &amp; ETA</li><li>Σχέδιο κοπής συνημμένο σε κωδικό</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MODULES ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-ic" style="background:var(--walnut)"><svg><use href="#i-layers"/></svg></div>
+      <div><div class="sec-num">05 — Modules (MVP)</div><h2>Τα 6 δομικά κομμάτια</h2>
+      <p>Πώς σπάει το σύστημα σε ενότητες — η ραχοκοκαλιά του ERP + CRM.</p></div>
+    </div>
+    <div class="grid3">
+      <div class="pcard"><div class="pcard__top"><div class="pcard__ic" style="--c:var(--teal);--cs:var(--teal-soft)"><svg><use href="#i-users"/></svg></div><div><div class="mnum" style="--c:var(--teal)">MODULE 01</div><h3>CRM &amp; Πελάτης</h3></div></div><p style="margin:0;font-size:13px;color:var(--muted)">Καρτέλα, ιστορικό, γρήγορη αναζήτηση (όνομα/τηλέφωνο).</p></div>
+      <div class="pcard"><div class="pcard__top"><div class="pcard__ic" style="--c:var(--amber);--cs:var(--amber-soft)"><svg><use href="#i-clip"/></svg></div><div><div class="mnum" style="--c:var(--amber)">MODULE 02</div><h3>Παραγγελιοληψία</h3></div></div><p style="margin:0;font-size:13px;color:var(--muted)">Δελτίο on-the-spot, κωδικοί + flex κωδικός για custom.</p></div>
+      <div class="pcard"><div class="pcard__top"><div class="pcard__ic" style="--c:var(--walnut);--cs:var(--walnut-soft)"><svg><use href="#i-box"/></svg></div><div><div class="mnum" style="--c:var(--walnut)">MODULE 03</div><h3>Εκτέλεση &amp; Αποθήκη</h3></div></div><p style="margin:0;font-size:13px;color:var(--muted)">Routing, picking, φόρτωση+φωτό, real-time stock.</p></div>
+      <div class="pcard"><div class="pcard__top"><div class="pcard__ic" style="--c:var(--indigo);--cs:var(--indigo-soft)"><svg><use href="#i-wallet"/></svg></div><div><div class="mnum" style="--c:var(--indigo)">MODULE 04</div><h3>Ταμειακή / Finance</h3></div></div><p style="margin:0;font-size:13px;color:var(--muted)">Dashboard ροών, υποχρεώσεις, καρτέλα προς-πληρωμή.</p></div>
+      <div class="pcard"><div class="pcard__top"><div class="pcard__ic" style="--c:var(--slate);--cs:var(--slate-soft)"><svg><use href="#i-truck"/></svg></div><div><div class="mnum" style="--c:var(--slate)">MODULE 05</div><h3>Δρομολόγηση</h3></div></div><p style="margin:0;font-size:13px;color:var(--muted)">Schedule ανά ζώνη/τονάζ/χωρητικότητα, ETA.</p></div>
+      <div class="pcard"><div class="pcard__top"><div class="pcard__ic" style="--c:var(--ink);--cs:#E8E2D5"><svg><use href="#i-gauge"/></svg></div><div><div class="mnum" style="--c:var(--ink)">MODULE 06</div><h3>CEO Dashboard</h3></div></div><p style="margin:0;font-size:13px;color:var(--muted)">Ενιαία εικόνα · KPIs · το «terminal».</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ USER STORIES ============ -->
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-ic" style="background:var(--teal)"><svg><use href="#i-clip"/></svg></div>
+      <div><div class="sec-num">06 — User Stories</div><h2>~30 user stories σε 5 epics</h2>
+      <p>Μορφή «Ως … θέλω … ώστε …», με acceptance criteria &amp; προτεραιότητα.
+      <span class="moscow m-M" style="margin-left:6px">M Must</span> <span class="moscow m-S">S Should</span> <span class="moscow m-C">C Could</span></p></div>
+    </div>
+
+    <!-- EPIC A -->
+    <div class="epic" style="--c:var(--teal)">
+      <div class="epic__head">
+        <div class="epic__ic"><svg><use href="#i-users"/></svg></div>
+        <div class="epic__t"><div class="lbl">Epic A · CRM &amp; Πελάτης</div><h3>4 stories</h3></div>
+        <div class="epic__prog">
+          <div class="row"><span class="lab">Προδιαγραφή</span><div class="pbar"><i data-p="100"></i></div><span>100%</span></div>
+          <div class="row"><span class="lab">Υλοποίηση</span><div class="pbar"><i data-p="0"></i></div><span>0%</span></div>
+        </div>
+      </div>
+      <div class="epic__start"><span><svg style="width:13px;height:13px;vertical-align:-2px"><use href="#i-cal"/></svg> Έναρξη υλοποίησης: <b>Φάση 1 — 16 Ιουν 2026</b></span><span>Mockup screen: Order taking</span></div>
+      <table class="stable">
+        <thead><tr><th style="width:54px">ID</th><th>User story</th><th>Acceptance</th><th style="width:64px">Prio</th></tr></thead>
+        <tbody>
+          <tr><td class="sidc">A1</td><td>Ως front-office θέλω να βρίσκω πελάτη με όνομα/τηλέφωνο σε δευτερόλεπτα.</td><td class="ac">Live αναζήτηση, καρτέλα με ιστορικό, &lt;2 sec.</td><td><span class="moscow m-M">M</span></td></tr>
+          <tr><td class="sidc">A2</td><td>Ως front-office θέλω να δημιουργώ νέο πελάτη επί τόπου με ελάχιστα πεδία.</td><td class="ac">Νέος πελάτης σε 1 οθόνη, προαιρετικά πεδία μετά.</td><td><span class="moscow m-M">M</span></td></tr>
+          <tr><td class="sidc">A3</td><td>Ως CEO θέλω να βλέπω ιστορικό &amp; υπόλοιπο πελάτη.</td><td class="ac">Καρτέλα: παραγγελίες, εκκρεμότητες, οφειλές.</td><td><span class="moscow m-S">S</span></td></tr>
+          <tr><td class="sidc">A4</td><td>Ως front-office θέλω να κρατώ σημειώσεις/προτιμήσεις πελάτη.</td><td class="ac">Πεδίο notes ανά πελάτη, ορατό σε όλους.</td><td><span class="moscow m-C">C</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- EPIC B -->
+    <div class="epic" style="--c:var(--amber)">
+      <div class="epic__head">
+        <div class="epic__ic"><svg><use href="#i-clip"/></svg></div>
+        <div class="epic__t"><div class="lbl">Epic B · Παραγγελιοληψία</div><h3>6 stories</h3></div>
+        <div class="epic__prog">
+          <div class="row"><span class="lab">Προδιαγραφή</span><div class="pbar"><i data-p="100"></i></div><span>100%</span></div>
+          <div class="row"><span class="lab">Υλοποίηση</span><div class="pbar"><i data-p="0"></i></div><span>0%</span></div>
+        </div>
+      </div>
+      <div class="epic__start"><span><svg style="width:13px;height:13px;vertical-align:-2px"><use href="#i-cal"/></svg> Έναρξη υλοποίησης: <b>Φάση 1 — 16 Ιουν 2026</b></span><span>Καρδιά του πρώτου mockup</span></div>
+      <table class="stable">
+        <thead><tr><th style="width:54px">ID</th><th>User story</th><th>Acceptance</th><th style="width:64px">Prio</th></tr></thead>
+        <tbody>
+          <tr><td class="sidc">B1</td><td>Ως υπάλληλος αυλής θέλω να ανοίγω δελτίο από tablet επί τόπου, ώστε ο πελάτης να φεύγει γρήγορα.</td><td class="ac">Δημιουργία &lt;30″, σύνδεση πελάτη, εμφανίζεται στο λογιστήριο.</td><td><span class="moscow m-M">M</span></td></tr>
+          <tr><td class="sidc">B2</td><td>Ως front-office θέλω γραμμές με κωδικό + ποσότητα.</td><td class="ac">Κωδικός υποχρεωτικός, ποσότητα, μονάδα.</td><td><span class="moscow m-M">M</span></td></tr>
+          <tr><td class="sidc">B3</td><td>Ως front-office θέλω, αν δεν υπάρχει κωδικός, να ανοίγω νέον γρήγορα.</td><td class="ac">«Quick add code» με δικαίωμα, flag «προσωρινός».</td><td><span class="moscow m-M">M</span></td></tr>
+          <tr><td class="sidc">B4</td><td>Ως πελάτης θέλω υποστήριξη custom προϊόντων (κοπές ξύλου).</td><td class="ac">Γραμμή ελεύθερης περιγραφής + διαστάσεις, χωρίς σταθερό κωδικό.</td><td><span class="moscow m-M">M</span></td></tr>
+          <tr><td class="sidc">B5</td><td>Ως μαραγκός θέλω να συνημμένο/σκανάρω σχέδιο κοπής δίπλα στον κωδικό.</td><td class="ac">Upload εικόνας, σύνδεση με γραμμή, ορατό στον υπεύθυνο.</td><td><span class="moscow m-S">S</span></td></tr>
+          <tr><td class="sidc">B6</td><td>Ως οποιοσδήποτε θέλω να βλέπω όλες τις pending παραγγελίες.</td><td class="ac">Λίστα με φίλτρα (πελάτης/χώρος/κατάσταση), τίποτα κρυφό.</td><td><span class="moscow m-M">M</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- EPIC C -->
+    <div class="epic" style="--c:var(--walnut)">
+      <div class="epic__head">
+        <div class="epic__ic"><svg><use href="#i-box"/></svg></div>
+        <div class="epic__t"><div class="lbl">Epic C · Εκτέλεση &amp; Αποθήκη</div><h3>8 stories</h3></div>
+        <div class="epic__prog">
+          <div class="row"><span class="lab">Προδιαγραφή</span><div class="pbar"><i data-p="100"></i></div><span>100%</span></div>
+          <div class="row"><span class="lab">Υλοποίηση</span><div class="pbar"><i data-p="0"></i></div><span>0%</span></div>
+        </div>
+      </div>
+      <div class="epic__start"><span><svg style="width:13px;height:13px;vertical-align:-2px"><use href="#i-cal"/></svg> Έναρξη υλοποίησης: <b>Φάση 1 — 16 Ιουν 2026</b></span><span>Mockup screens: Routing · Stock</span></div>
+      <table class="stable">
+        <thead><tr><th style="width:54px">ID</th><th>User story</th><th>Acceptance</th><th style="width:64px">Prio</th></tr></thead>
+        <tbody>
+          <tr><td class="sidc">C1</td><td>Ως σύστημα θέλω να δρομολογώ την παραγγελία στον υπεύθυνο του σωστού χώρου.</td><td class="ac">Mapping κωδικός→χώρος→υπεύθυνος, ειδοποίηση.</td><td><span class="moscow m-M">M</span></td></tr>
+          <tr><td class="sidc">C2</td><td>Ως υπεύθυνος χώρου θέλω ειδοποίηση «έρχεται πελάτης Χ, αυτά τα προϊόντα, σε αυτά τα ράφια».</td><td class="ac">Push με πελάτη, κωδικούς, θέση ραφιού.</td><td><span class="moscow m-M">M</span></td></tr>
+          <tr><td class="sidc">C3</td><td>Ως υπεύθυνος χώρου θέλω «Φορτώθηκε» + φωτογραφία φορτίου.</td><td class="ac">Confirm, φωτό, timestamp + χρήστης.</td><td><span class="moscow m-M">M</span></td></tr>
+          <tr><td class="sidc">C4</td><td>Ως λογιστήριο θέλω μετά τη φόρτωση να γίνεται «pending προς πληρωμή».</td><td class="ac">Auto status, χρέωση σε χώρο, ορατό στο λογιστήριο.</td><td><span class="moscow m-M">M</span></td></tr>
+          <tr><td class="sidc">C5</td><td>Ως σύστημα θέλω, με την πληρωμή, να μειώνεται το απόθεμα.</td><td class="ac">Inventory movement on payment + audit trail.</td><td><span class="moscow m-M">M</span></td></tr>
+          <tr><td class="sidc">C6</td><td>Ως οποιοσδήποτε θέλω να χειρίζομαι «pending αλλά δεν παραδόθηκε».</td><td class="ac">Ακύρωση/επιστροφή πριν την πληρωμή, stock δεν μειώνεται.</td><td><span class="moscow m-S">S</span></td></tr>
+          <tr><td class="sidc">C7</td><td>Ως υπάλληλος θέλω real-time απόθεμα ανά κωδικό &amp; χώρο.</td><td class="ac">Stock view ανά κωδικό/κτίριο.</td><td><span class="moscow m-M">M</span></td></tr>
+          <tr><td class="sidc">C8</td><td>Ως παραγωγή θέλω εργασίες κοπής/κατασκευής με προθεσμία.</td><td class="ac">Ουρά εργασιών με due time, σύνδεση με σχέδιο (B5).</td><td><span class="moscow m-S">S</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- EPIC D -->
+    <div class="epic" style="--c:var(--indigo)">
+      <div class="epic__head">
+        <div class="epic__ic"><svg><use href="#i-wallet"/></svg></div>
+        <div class="epic__t"><div class="lbl">Epic D · Ταμειακή / Finance</div><h3>5 stories</h3></div>
+        <div class="epic__prog">
+          <div class="row"><span class="lab">Προδιαγραφή</span><div class="pbar"><i data-p="100"></i></div><span>100%</span></div>
+          <div class="row"><span class="lab">Υλοποίηση</span><div class="pbar"><i data-p="0"></i></div><span>0%</span></div>
+        </div>
+      </div>
+      <div class="epic__start"><span><svg style="width:13px;height:13px;vertical-align:-2px"><use href="#i-cal"/></svg> Έναρξη υλοποίησης: <b>Φάση 1 — 16 Ιουν 2026</b></span><span>Το «δόλωμα» που κερδίζει τον CEO</span></div>
+      <table class="stable">
+        <thead><tr><th style="width:54px">ID</th><th>User story</th><th>Acceptance</th><th style="width:64px">Prio</th></tr></thead>
+        <tbody>
+          <tr><td class="sidc">D1</td><td>Ως CEO θέλω ένα dashboard με live ταμειακή θέση όλων των λογαριασμών.</td><td class="ac">Συγκεντρωτικά balances (mock), ανά λογαριασμό &amp; σύνολο.</td><td><span class="moscow m-M">M</span></td></tr>
+          <tr><td class="sidc">D2</td><td>Ως CEO θέλω υποχρεώσεις προς πληρωμή με ημερομηνίες.</td><td class="ac">Λίστα obligations: due date, ποσό, προμηθευτής.</td><td><span class="moscow m-M">M</span></td></tr>
+          <tr><td class="sidc">D3</td><td>Ως CEO θέλω εισερχόμενες ροές ανά περιοχή.</td><td class="ac">Ροές ανά ζώνη (Λευκάδα, Γιάννενα, Πάτρα…), τάση.</td><td><span class="moscow m-S">S</span></td></tr>
+          <tr><td class="sidc">D4</td><td>Ως λογιστήριο θέλω το τιμολόγιο προμηθευτή ως επιπίστωση &amp; υποχρέωση.</td><td class="ac">invoice → obligation, link σε πληρωμή.</td><td><span class="moscow m-S">S</span></td></tr>
+          <tr><td class="sidc">D5</td><td>Ως CEO θέλω KPIs (ρευστότητα, εισπράξεις, ημερήσιες κινήσεις).</td><td class="ac">Cards με κύρια νούμερα στην αρχική.</td><td><span class="moscow m-M">M</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- EPIC E -->
+    <div class="epic" style="--c:var(--slate)">
+      <div class="epic__head">
+        <div class="epic__ic"><svg><use href="#i-truck"/></svg></div>
+        <div class="epic__t"><div class="lbl">Epic E · Δρομολόγηση παραδόσεων</div><h3>4 stories</h3></div>
+        <div class="epic__prog">
+          <div class="row"><span class="lab">Προδιαγραφή</span><div class="pbar"><i data-p="100"></i></div><span>100%</span></div>
+          <div class="row"><span class="lab">Υλοποίηση</span><div class="pbar"><i data-p="0"></i></div><span>0%</span></div>
+        </div>
+      </div>
+      <div class="epic__start"><span><svg style="width:13px;height:13px;vertical-align:-2px"><use href="#i-cal"/></svg> Έναρξη υλοποίησης: <b>Φάση 1+ — 2ο iteration</b></span><span>Εκτός 1ου mockup</span></div>
+      <table class="stable">
+        <thead><tr><th style="width:54px">ID</th><th>User story</th><th>Acceptance</th><th style="width:64px">Prio</th></tr></thead>
+        <tbody>
+          <tr><td class="sidc">E1</td><td>Ως logistics θέλω πρόγραμμα δρομολογίων ανά ζώνη.</td><td class="ac">Group ανά προορισμό (Βασιλική, Άγ. Νικήτας, Βόνιτσα), ημέρα.</td><td><span class="moscow m-S">S</span></td></tr>
+          <tr><td class="sidc">E2</td><td>Ως logistics θέλω ταξινόμηση με βάση τονάζ &amp; χωρητικότητα.</td><td class="ac">Άθροισμα τονάζ vs χωρητικότητα, warning υπέρβασης.</td><td><span class="moscow m-S">S</span></td></tr>
+          <tr><td class="sidc">E3</td><td>Ως πελάτης θέλω αξιόπιστο ETA («Πέμπτη = Πέμπτη»).</td><td class="ac">Δέσμευση ημέρας ανά παραγγελία, ορατό στην καρτέλα.</td><td><span class="moscow m-S">S</span></td></tr>
+          <tr><td class="sidc">E4</td><td>Ως πελάτης θέλω ειδοποίηση κατάστασης.</td><td class="ac">Status timeline ορατό (mock notification).</td><td><span class="moscow m-C">C</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATE MACHINE ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-ic" style="background:var(--amber)"><svg><use href="#i-flow"/></svg></div>
+      <div><div class="sec-num">07 — Order State Machine</div><h2>Ο κύκλος ζωής της παραγγελίας</h2>
+      <p>Από το άνοιγμα μέχρι το κλείσιμο — με τον κρίσιμο κανόνα του αποθέματος.</p></div>
+    </div>
+    <div class="flow">
+      <span class="state">ΝΕΑ</span><span class="arrow">→</span>
+      <span class="state">ΔΡΟΜΟΛΟΓΗΜΕΝΗ</span><span class="arrow">→</span>
+      <span class="state">ΥΠΟ ΕΤΟΙΜΑΣΙΑ</span><span class="arrow">→</span>
+      <span class="state k">ΦΟΡΤΩΘΗΚΕ</span><span class="arrow">→</span>
+      <span class="state pay">PENDING ΠΛΗΡΩΜΗΣ</span><span class="arrow">→</span>
+      <span class="state done">ΠΛΗΡΩΘΗΚΕ → stock −</span><span class="arrow">→</span>
+      <span class="state">ΚΛΕΙΣΤΗ</span>
+      <span class="arrow" style="margin:0 4px">·</span>
+      <span class="state cancel">ΑΚΥΡΩΘΗΚΕ</span>
+    </div>
+    <div class="flow-note"><svg><use href="#i-bolt"/></svg><div>Το απόθεμα μειώνεται <b>μόνο</b> στη μετάβαση → <b>ΠΛΗΡΩΘΗΚΕ</b>. Η ακύρωση επιτρέπεται μέχρι την πληρωμή (περίπτωση «έγινε pending αλλά δεν παραδόθηκε»). Κάθε μετάβαση κρατά χρήστη + timestamp (audit trail).</div></div>
+  </div>
+</section>
+
+<!-- ============ DATA MODEL ============ -->
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-ic" style="background:var(--indigo)"><svg><use href="#i-db"/></svg></div>
+      <div><div class="sec-num">08 — Data Model</div><h2>Πρόχειρο μοντέλο δεδομένων</h2>
+      <p>Οι βασικές οντότητες για το mockup — όχι τελικό schema, αλλά αρκετά για να σταθούν τα flows.</p></div>
+    </div>
+    <table class="dtable">
+      <thead><tr><th style="width:200px">Entity</th><th>Βασικά πεδία</th><th>Σχέσεις</th></tr></thead>
+      <tbody>
+        <tr><td class="ent">Customer</td><td>όνομα, τηλέφωνο, ζώνη, notes, υπόλοιπο</td><td>1–N Orders</td></tr>
+        <tr><td class="ent">Product / Code</td><td>code, περιγραφή, κατηγορία (1–11), μονάδα, flag κωδικοποιημένο/custom</td><td>1–N OrderLines · N–1 Location</td></tr>
+        <tr><td class="ent">Sketch / Attachment</td><td>αρχείο (φωτό/σχέδιο), τύπος</td><td>N–1 OrderLine / Product</td></tr>
+        <tr><td class="ent">Order</td><td>customer, ημ/νία, κατάσταση, ζώνη, ETA, σύνολο</td><td>1–N OrderLines</td></tr>
+        <tr><td class="ent">OrderLine</td><td>product/code ή ελεύθερη περιγραφή, ποσότητα, διαστάσεις, σχέδιο</td><td>N–1 Order</td></tr>
+        <tr><td class="ent">Location (Κτίριο)</td><td>όνομα (3ο κτίριο…), υπεύθυνος</td><td>1–N Products · 1 Responsible</td></tr>
+        <tr><td class="ent">Inventory Movement</td><td>product, location, ποσότητα, κίνηση (+/−), αιτία, timestamp</td><td>N–1 Product/Location</td></tr>
+        <tr><td class="ent">SupplierInvoice / Obligation</td><td>προμηθευτής, ποσό, ημ/νία, due date, status</td><td>—</td></tr>
+        <tr><td class="ent">BankAccount / CashFlow</td><td>account, balance (mock), κίνηση, περιοχή</td><td>—</td></tr>
+        <tr><td class="ent">DeliveryRoute</td><td>ζώνη, ημέρα, φορτηγό, χωρητικότητα, παραγγελίες</td><td>N–N Orders · N–1 Truck</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ KPIs ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-ic" style="background:var(--ink)"><svg><use href="#i-gauge"/></svg></div>
+      <div><div class="sec-num">09 — CEO Terminal</div><h2>Τα KPIs της αρχικής οθόνης</h2>
+      <p>Η «ανάγκη αποτυπωμένη σε δευτερόλεπτα» — όπως το ζήτησε ο Κώστας. (mock νούμερα)</p></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi-c"><div class="k">Ταμειακή θέση</div><div class="v teal">€ —</div></div>
+      <div class="kpi-c"><div class="k">Προς πληρωμή σήμερα</div><div class="v amber">€ —</div></div>
+      <div class="kpi-c"><div class="k">Pending εισπράξεις</div><div class="v">€ —</div></div>
+      <div class="kpi-c"><div class="k">Ημερήσιες κινήσεις</div><div class="v">30–40</div></div>
+      <div class="kpi-c"><div class="k">Παραγγελίες ανά κατάσταση</div><div class="v">open · loaded · pending</div></div>
+      <div class="kpi-c"><div class="k">Stock alerts</div><div class="v amber">χαμηλά είδη</div></div>
+      <div class="kpi-c"><div class="k">Δρομολόγια ημέρας</div><div class="v">ανά ζώνη</div></div>
+      <div class="kpi-c"><div class="k">Χρόνος που γλιτώνεις</div><div class="v teal">&gt;30′/μέρα</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MOCKUP SCOPE ============ -->
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-ic" style="background:var(--amber)"><svg><use href="#i-layers"/></svg></div>
+      <div><div class="sec-num">10 — Phase 1 Gate</div><h2>Τι μπαίνει στο ΠΡΩΤΟ mockup</h2>
+      <p>Πέντε οθόνες — ένα end-to-end flow + το dashboard — για να «νιώσει» ο Κώστας την ιδέα.</p></div>
+    </div>
+    <div class="checks">
+      <div class="check"><div class="check__n">01</div><div><h4>CEO Dashboard</h4><p>Η εικόνα-«terminal»: ταμείο, υποχρεώσεις, KPIs.</p><div class="meta"><span><svg style="width:12px;height:12px;vertical-align:-1px"><use href="#i-cal"/></svg> 16 Ιουν</span><span>0% → in progress</span></div></div></div>
+      <div class="check"><div class="check__n">02</div><div><h4>Δελτίο παραγγελίας (tablet)</h4><p>Άνοιγμα παραγγελίας επί τόπου — B1–B4.</p><div class="meta"><span><svg style="width:12px;height:12px;vertical-align:-1px"><use href="#i-cal"/></svg> 18 Ιουν</span><span>0%</span></div></div></div>
+      <div class="check"><div class="check__n">03</div><div><h4>Routing + Φόρτωση + φωτό</h4><p>Η ροή εκτέλεσης — C1–C4.</p><div class="meta"><span><svg style="width:12px;height:12px;vertical-align:-1px"><use href="#i-cal"/></svg> 21 Ιουν</span><span>0%</span></div></div></div>
+      <div class="check"><div class="check__n">04</div><div><h4>Λίστα Pending</h4><p>Η ορατότητα που λείπει σήμερα — B6.</p><div class="meta"><span><svg style="width:12px;height:12px;vertical-align:-1px"><use href="#i-cal"/></svg> 24 Ιουν</span><span>0%</span></div></div></div>
+      <div class="check"><div class="check__n">05</div><div><h4>Εικόνα Αποθήκης</h4><p>«Το έχουμε; — ναι/όχι/πόσα» — C7.</p><div class="meta"><span><svg style="width:12px;height:12px;vertical-align:-1px"><use href="#i-cal"/></svg> 27 Ιουν</span><span>0%</span></div></div></div>
+      <div class="check" style="border-style:dashed;background:transparent"><div class="check__n" style="color:var(--muted)">→</div><div><h4 style="color:var(--muted)">Εκτός 1ου mockup</h4><p>Δρομολόγηση (E), finance βάθος (D3-D4), production queue (C8), σχέδια (B5 placeholder).</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OPEN QUESTIONS ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-ic" style="background:var(--walnut)"><svg><use href="#i-q"/></svg></div>
+      <div><div class="sec-num">11 — Decisions Needed</div><h2>Ανοιχτά ερωτήματα</h2>
+      <p>Έξι αποφάσεις που χρειαζόμαστε πριν προχωρήσουμε σε engineering.</p></div>
+    </div>
+    <ul class="ql">
+      <li><span class="qn">Q1</span><div><b>Λογιστικό σύστημα:</b> με ποιο εμπορικό/λογιστικό πρόγραμμα δουλεύουν ήδη; Integration ή «πάνω» του;</div></li>
+      <li><span class="qn">Q2</span><div><b>Τράπεζες:</b> εφικτό/επιθυμητό API aggregation, ή ενιαία χειροκίνητη καταγραφή ροών στην αρχή;</div></li>
+      <li><span class="qn">Q3</span><div><b>Κωδικοποίηση:</b> πόσο «χαλαρή»; Μελαμίνες = αυστηροί κωδικοί, ξυλεία = ελεύθερη περιγραφή. Χρειάζεται policy.</div></li>
+      <li><span class="qn">Q4</span><div><b>Hardware:</b> tablets/κινητά στην αυλή &amp; χώρους — προμήθεια &amp; WiFi κάλυψη κτιρίων;</div></li>
+      <li><span class="qn">Q5</span><div><b>Offline:</b> αν πέσει το δίκτυο, το δελτίο να δουλεύει offline &amp; να συγχρονίζει;</div></li>
+      <li><span class="qn">Q6</span><div><b>Ρόλοι/δικαιώματα:</b> ποιος ανοίγει κωδικό, ποιος ακυρώνει pending, ποιος βλέπει finance;</div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ CHANGE MGMT ============ -->
+<section class="alt">
+  <div class="wrap">
+    <div class="callout">
+      <div class="eyebrow"><svg style="width:14px;height:14px"><use href="#i-spark"/></svg> Change Management</div>
+      <h3>Πώς κερδίζουμε τον CEO</h3>
+      <ul>
+        <li>Το υπάρχον χάρτινο σύστημα <b>δουλεύει και αποδίδει</b>. Ο Κώστας δεν ζητά να αλλάξει — ζητά να γλιτώσει χρόνο.</li>
+        <li>Δείχνουμε <b>πρώτα το dashboard</b> που του επιστρέφει τα &gt;30′/μέρα — εκεί είναι ο πιο άμεσος πόνος.</li>
+        <li>Κρατάμε το ίδιο mental model: «1+1=2, το ξέρω αλλά δεν μπορώ να το αποδείξω» → το σύστημα <b>αποδεικνύει</b> αυτό που ήδη ξέρει.</li>
+        <li>Μήνυμα: <b>«10 λεπτά μαζί σου, με τον ίδιο τρόπο που δουλεύεις — και σου επιστρέφω ώρες.»</b></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="logo-plate">
+      <svg class="logo-mark" viewBox="0 0 100 100" role="img" aria-label="Σταύρακας Α.Ε.">
+        <rect x="2" y="2" width="96" height="96" rx="9" fill="#14A058"/>
+        <g fill="none" stroke="#ffffff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M31 41 L50 19 L69 41"/>
+          <path d="M26 58 L50 33 L74 58"/>
+          <path d="M22 73 L50 47 L78 73"/>
+        </g>
+        <rect x="45.5" y="69" width="9" height="17" rx="2" fill="#ffffff"/>
+        <path d="M50 20 L50 73" stroke="#14A058" stroke-width="3.6" stroke-linecap="round"/>
+      </svg>
+      <div class="logo-words">
+        <span class="logo-name">Σταύρακας Α.Ε.</span>
+        <span class="logo-tag">ΕΜΠΟΡΙΟ ΚΑΙ ΚΑΤΕΡΓΑΣΙΑ ΞΥΛΟΥ</span>
+      </div>
+    </div>
+    <div class="footer-meta">
+      <span>ERP+CRM Spec &amp; Roadmap · <b>v0.1</b></span>
+      <span>Phase 1 — Mockup · 13 Ιουν 2026 · Next2Me Group</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // animate progress bars + epic bars + topbar on reveal
+  (function(){
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function fill(el){
+      var p = el.getAttribute('data-p') + '%';
+      if(reduce){ el.style.width = p; return; }
+      requestAnimationFrame(function(){ el.style.width = p; });
+    }
+    var targets = document.querySelectorAll('.bar i[data-p], .epic__prog .pbar i[data-p]');
+    if(!('IntersectionObserver' in window)){
+      targets.forEach(fill); return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ fill(e.target); io.unobserve(e.target); }
+      });
+    }, {threshold:.4});
+    targets.forEach(function(t){ io.observe(t); });
+
+    // topbar overall bar
+    var tb = document.querySelector('.topbar__bar i');
+    if(tb && !reduce){ tb.style.width='0'; setTimeout(function(){ tb.style.transition='width 1.1s cubic-bezier(.4,0,.2,1)'; tb.style.width='28%'; },200); }
+  })();
+</script>
+</body>
+</html>
